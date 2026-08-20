@@ -60,7 +60,7 @@ export default function OverviewPage() {
         <p className="text-slate-400 text-sm">Loading...</p>
       ) : (
         <div className="space-y-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             <KpiCard label="Total Visitors" value={formatNumber(summary.totalVisitors)} sub={`Across ${summary.branchCount} branches`} />
             <KpiCard
               label="Top Branch"
@@ -68,8 +68,9 @@ export default function OverviewPage() {
               sub={`${formatNumber(summary.topBranchVisits)} visitors`}
               accent="brand"
             />
-            <KpiCard label="Positive Feedback" value={formatPct(summary.positivePct)} sub={`${formatNumber(summary.positiveFeedback)} responses`} accent="green" />
-            <KpiCard label="Unsatisfaction Rate" value={formatPct(summary.unsatisfactionPct)} sub={`${formatNumber(summary.unsatisfaction)} responses`} accent="red" />
+            <KpiCard label="Positive Feedback" value={formatPct(satSummary.positivePct)} sub={`${formatNumber(satSummary.positive)} responses`} accent="green" />
+            <KpiCard label="Unsatisfaction Rate" value={formatPct(satSummary.unsatisfactionPct)} sub={`${formatNumber(satSummary.unsatisfaction)} responses`} accent="red" />
+            <KpiCard label="Not Rated" value={formatPct(satSummary.notRatedPct)} sub={`${formatNumber(satSummary.notRated)} responses`} accent="amber" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

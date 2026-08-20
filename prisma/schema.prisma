@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Year {
+  year      Int      @id
+  // How many months of data this year actually contains so far. Full past
+  // years should be 12. The current/in-progress year should be set to the
+  // number of months of real data you have (e.g. 6), so Yearly Comparison
+  // can compare years fairly using a monthly-average instead of raw totals.
+  monthsCovered Int  @default(12)
+  createdAt DateTime @default(now())
+  branches  Branch[]
+}
+
+// Multiple named admin accounts, so more than one person can sign in with
+// their own username/password at the same time (instead of everyone sharing
+// a single hardcoded login). Manage accounts from Manage Data -> Admin Users,
+// or via `npm run create-admin`.
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+model Branch {
+  id             Int      @id @default(autoincrement())
+  year           Int
+  yearRef        Year     @relation(fields: [year], references: [year], onDelete: Cascade)
+  division       String   @default("Unassigned")
+  branch         String
+  total          Int      @default(0)
+  excellent      Int      @default(0)
+  good           Int      @default(0)
+  normal         Int      @default(0)
+  satisfaction   Int      @default(0)
+  unsatisfaction Int      @default(0)
+  notRating      Int      @default(0)
+  male           Int      @default(0)
+  female         Int      @default(0)
+  isPlaceholder  Boolean  @default(false) // true if division/gender split is generated, not real
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([year])
+  @@index([division])
+  @@unique([year, division, branch])
+}

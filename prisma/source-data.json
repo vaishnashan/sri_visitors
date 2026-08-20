@@ -1,0 +1,332 @@
+{
+  "2024": {
+    "Agriculture": {
+      "excellent": 166,
+      "good": 91,
+      "normal": 81,
+      "satisfaction": 69,
+      "unsatisfaction": 15,
+      "not_rating": 17,
+      "total": 439
+    },
+    "ADR": {
+      "excellent": 644,
+      "good": 1283,
+      "normal": 497,
+      "satisfaction": 43,
+      "unsatisfaction": 221,
+      "not_rating": 18,
+      "total": 2706
+    },
+    "EB": {
+      "excellent": 182,
+      "good": 268,
+      "normal": 207,
+      "satisfaction": 197,
+      "unsatisfaction": 78,
+      "not_rating": 36,
+      "total": 968
+    },
+    "Disaster": {
+      "excellent": 101,
+      "good": 32,
+      "normal": 84,
+      "satisfaction": 139,
+      "unsatisfaction": 32,
+      "not_rating": 22,
+      "total": 410
+    },
+    "Statistical": {
+      "excellent": 3,
+      "good": 4,
+      "normal": 6,
+      "satisfaction": 6,
+      "unsatisfaction": 1,
+      "not_rating": 0,
+      "total": 20
+    },
+    "GA": {
+      "excellent": 291,
+      "good": 15,
+      "normal": 134,
+      "satisfaction": 74,
+      "unsatisfaction": 79,
+      "not_rating": 6,
+      "total": 599
+    },
+    "Accounts": {
+      "excellent": 67,
+      "good": 41,
+      "normal": 78,
+      "satisfaction": 99,
+      "unsatisfaction": 29,
+      "not_rating": 17,
+      "total": 331
+    },
+    "CIA": {
+      "excellent": 5,
+      "good": 4,
+      "normal": 6,
+      "satisfaction": 4,
+      "unsatisfaction": 3,
+      "not_rating": 1,
+      "total": 23
+    },
+    "Engineering": {
+      "excellent": 16,
+      "good": 6,
+      "normal": 14,
+      "satisfaction": 20,
+      "unsatisfaction": 7,
+      "not_rating": 18,
+      "total": 81
+    },
+    "Land": {
+      "excellent": 116,
+      "good": 279,
+      "normal": 396,
+      "satisfaction": 335,
+      "unsatisfaction": 321,
+      "not_rating": 24,
+      "total": 1471
+    },
+    "Planning": {
+      "excellent": 162,
+      "good": 90,
+      "normal": 463,
+      "satisfaction": 417,
+      "unsatisfaction": 298,
+      "not_rating": 29,
+      "total": 1459
+    },
+    "ADS": {
+      "excellent": 90,
+      "good": 269,
+      "normal": 388,
+      "satisfaction": 410,
+      "unsatisfaction": 511,
+      "not_rating": 25,
+      "total": 1693
+    }
+  },
+  "2025": {
+    "GA": {
+      "excellent": 524,
+      "good": 178,
+      "normal": 242,
+      "satisfaction": 133,
+      "unsatisfaction": 12,
+      "not_rating": 10,
+      "total": 1099
+    },
+    "EB": {
+      "excellent": 328,
+      "good": 194,
+      "normal": 189,
+      "satisfaction": 175,
+      "unsatisfaction": 18,
+      "not_rating": 16,
+      "total": 920
+    },
+    "Accounts": {
+      "excellent": 121,
+      "good": 123,
+      "normal": 89,
+      "satisfaction": 159,
+      "unsatisfaction": 74,
+      "not_rating": 13,
+      "total": 579
+    },
+    "Land": {
+      "excellent": 388,
+      "good": 396,
+      "normal": 582,
+      "satisfaction": 424,
+      "unsatisfaction": 323,
+      "not_rating": 41,
+      "total": 2154
+    },
+    "ADR": {
+      "excellent": 1157,
+      "good": 2312,
+      "normal": 894,
+      "satisfaction": 77,
+      "unsatisfaction": 397,
+      "not_rating": 33,
+      "total": 4870
+    },
+    "Agriculture": {
+      "excellent": 299,
+      "good": 164,
+      "normal": 146,
+      "satisfaction": 125,
+      "unsatisfaction": 27,
+      "not_rating": 30,
+      "total": 791
+    },
+    "Planning": {
+      "excellent": 291,
+      "good": 163,
+      "normal": 114,
+      "satisfaction": 751,
+      "unsatisfaction": 200,
+      "not_rating": 7,
+      "total": 1526
+    },
+    "Statistical": {
+      "excellent": 5,
+      "good": 8,
+      "normal": 10,
+      "satisfaction": 10,
+      "unsatisfaction": 2,
+      "not_rating": 0,
+      "total": 35
+    },
+    "CIA": {
+      "excellent": 9,
+      "good": 7,
+      "normal": 10,
+      "satisfaction": 8,
+      "unsatisfaction": 6,
+      "not_rating": 2,
+      "total": 42
+    },
+    "Engineering": {
+      "excellent": 28,
+      "good": 21,
+      "normal": 26,
+      "satisfaction": 36,
+      "unsatisfaction": 10,
+      "not_rating": 0,
+      "total": 121
+    },
+    "Disaster": {
+      "excellent": 181,
+      "good": 165,
+      "normal": 134,
+      "satisfaction": 179,
+      "unsatisfaction": 58,
+      "not_rating": 21,
+      "total": 738
+    },
+    "ADS": {
+      "excellent": 162,
+      "good": 124,
+      "normal": 159,
+      "satisfaction": 197,
+      "unsatisfaction": 199,
+      "not_rating": 47,
+      "total": 888
+    }
+  },
+  "2026": {
+    "Planning": {
+      "excellent": 143,
+      "good": 80,
+      "normal": 56,
+      "satisfaction": 370,
+      "unsatisfaction": 34,
+      "not_rating": 3,
+      "total": 686
+    },
+    "ADR": {
+      "excellent": 539,
+      "good": 1199,
+      "normal": 418,
+      "satisfaction": 135,
+      "unsatisfaction": 111,
+      "not_rating": 15,
+      "total": 2417
+    },
+    "Accounts": {
+      "excellent": 60,
+      "good": 61,
+      "normal": 44,
+      "satisfaction": 77,
+      "unsatisfaction": 13,
+      "not_rating": 6,
+      "total": 261
+    },
+    "GA": {
+      "excellent": 229,
+      "good": 177,
+      "normal": 105,
+      "satisfaction": 158,
+      "unsatisfaction": 75,
+      "not_rating": 4,
+      "total": 748
+    },
+    "Disaster": {
+      "excellent": 84,
+      "good": 76,
+      "normal": 62,
+      "satisfaction": 83,
+      "unsatisfaction": 17,
+      "not_rating": 10,
+      "total": 332
+    },
+    "Agriculture": {
+      "excellent": 132,
+      "good": 73,
+      "normal": 65,
+      "satisfaction": 55,
+      "unsatisfaction": 18,
+      "not_rating": 13,
+      "total": 356
+    },
+    "EB": {
+      "excellent": 110,
+      "good": 85,
+      "normal": 82,
+      "satisfaction": 76,
+      "unsatisfaction": 21,
+      "not_rating": 7,
+      "total": 381
+    },
+    "ADS": {
+      "excellent": 89,
+      "good": 168,
+      "normal": 188,
+      "satisfaction": 309,
+      "unsatisfaction": 73,
+      "not_rating": 26,
+      "total": 853
+    },
+    "CIA": {
+      "excellent": 5,
+      "good": 4,
+      "normal": 5,
+      "satisfaction": 4,
+      "unsatisfaction": 1,
+      "not_rating": 1,
+      "total": 20
+    },
+    "Statistical": {
+      "excellent": 2,
+      "good": 4,
+      "normal": 5,
+      "satisfaction": 5,
+      "unsatisfaction": 1,
+      "not_rating": 0,
+      "total": 17
+    },
+    "Engineering": {
+      "excellent": 13,
+      "good": 10,
+      "normal": 12,
+      "satisfaction": 17,
+      "unsatisfaction": 3,
+      "not_rating": 10,
+      "total": 65
+    },
+    "Land": {
+      "excellent": 195,
+      "good": 299,
+      "normal": 393,
+      "satisfaction": 313,
+      "unsatisfaction": 149,
+      "not_rating": 21,
+      "total": 1370
+    }
+  }
+}

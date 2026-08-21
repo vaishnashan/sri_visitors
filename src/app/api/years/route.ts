@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-const DIVISIONS = ["Karachchi", "Kandawalai", "Poonakary (Poonagary)", "Pachchilaipalli"];
+const DIVISIONS = ["Karachchi", "Kandawalai", "Poonakary", "Pachchilaipalli"];
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

@@ -17,7 +17,7 @@ import sourceData from "./source-data.json";
 const prisma = new PrismaClient();
 
 const CATEGORIES = ["excellent", "good", "normal", "satisfaction", "unsatisfaction", "not_rating"] as const;
-const DIVISIONS = ["Karachchi", "Kandawalai", "Poonakary (Poonagary)", "Pachchilaipalli"];
+const DIVISIONS = ["Karachchi", "Kandawalai", "Poonakary", "Pachchilaipalli"];
 
 // Deterministic string-seeded PRNG (mulberry32) so re-running the seed
 // always produces the same placeholder split.

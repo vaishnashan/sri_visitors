@@ -62,4 +62,4 @@ export function useBranchRows(year?: number, division?: string) {
   return { rows, loading, refetch: () => setRows((r) => [...r]) };
 }
 
-export const DIVISIONS = ["Karachchi", "Kandawalai", "Poonakary (Poonagary)", "Pachchilaipalli"];
+export const DIVISIONS = ["Karachchi", "Kandawalai", "Poonakary", "Pachchilaipalli"];

@@ -18,6 +18,34 @@ import {
 } from "recharts";
 import type { ChartType } from "@/types";
 
+// ---- Label-sizing helpers -------------------------------------------------
+// The old chart config used fixed pixel values (axis height, margins, pie
+// radius) that assumed short labels. Real branch/division/category names
+// are longer, so rotated x-axis text got clipped at the bottom of the chart,
+// and pie slice labels (name + "62.3% (1,234)") ran past the edge of the
+// SVG and were cut off — especially on narrower/mobile widths. These
+// helpers size things off the actual label content instead.
+
+function longestLabelLength(data: Array<Record<string, string | number>>): number {
+  return data.reduce((max, d) => Math.max(max, String(d.name ?? "").length), 0);
+}
+
+/** Font size for x-axis ticks: shrink a bit as the category count grows. */
+function xTickFontSize(count: number): number {
+  if (count > 14) return 10;
+  if (count > 8) return 11;
+  return 12;
+}
+
+/** Height to reserve for a rotated (-35°) x-axis label so it never gets
+ *  clipped by the bottom of the chart. */
+function xAxisHeight(maxLabelLen: number, fontSize: number): number {
+  const approxCharWidth = fontSize * 0.62;
+  const textWidth = maxLabelLen * approxCharWidth;
+  const verticalFootprint = textWidth * Math.sin((35 * Math.PI) / 180); // rotated extent
+  return Math.round(Math.min(130, Math.max(48, verticalFootprint + 26)));
+}
+
 export interface ChartSeries {
   key: string;
   label: string;
@@ -61,6 +89,18 @@ export default function ChartCard({
   const [type, setType] = useState<ChartType>(defaultType);
   const fmt = valueFormatter ?? ((v: number) => new Intl.NumberFormat("en-US").format(v));
 
+  // Sizing derived from the actual data, so labels always have enough room.
+  const tickFontSize = xTickFontSize(data.length);
+  const maxLabelLen = longestLabelLength(data);
+  const rotateXLabels = data.length > 5 || maxLabelLen > 9;
+  const axisHeight = rotateXLabels ? xAxisHeight(maxLabelLen, tickFontSize) : 34;
+  const bottomMargin = axisHeight + 10;
+  const longestYTick = Math.max(
+    0,
+    ...data.flatMap((d) => series.map((s) => fmt(Number(d[s.key]) || 0).length))
+  );
+  const yAxisWidth = Math.max(46, longestYTick * 7 + 14) + (yLabel ? 12 : 0);
+
   // Pie mode: aggregate the first (or only) series across all data rows into slices.
   const pieData =
     series.length === 1
@@ -75,6 +115,7 @@ export default function ChartCard({
     const pct = total ? (value / total) * 100 : 0;
     return `${pct.toFixed(1)}% (${fmt(value)})`;
   };
+  const pieLabelFontSize = pieData.length > 8 ? 10 : pieData.length > 5 ? 11 : 12;
 
   // For bar/line tooltips: single-series charts compare each item against
   // the grand total across all items; multi-series charts compare each
@@ -120,22 +161,18 @@ export default function ChartCard({
 
       <ResponsiveContainer width="100%" height={height}>
         {type === "bar" ? (
-          <BarChart data={data} margin={{ top: 8, right: 16, left: 8, bottom: xLabel ? 24 : 8 }}>
+          <BarChart data={data} margin={{ top: 8, right: 16, left: 4, bottom: bottomMargin }}>
             <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-800" />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: 12, fontWeight: 600 }}
-              angle={-35}
-              textAnchor="end"
+              tick={{ fontSize: tickFontSize, fontWeight: 600 }}
+              angle={rotateXLabels ? -35 : 0}
+              textAnchor={rotateXLabels ? "end" : "middle"}
               interval={0}
-              height={60}
-              label={xLabel ? { value: xLabel, position: "insideBottom", offset: -4, fontSize: 12 } : undefined}
+              height={axisHeight}
+              tickMargin={8}
             />
-            <YAxis
-              tick={{ fontSize: 12, fontWeight: 600 }}
-              tickFormatter={fmt}
-              label={yLabel ? { value: yLabel, angle: -90, position: "insideLeft", fontSize: 12 } : undefined}
-            />
+            <YAxis tick={{ fontSize: 12, fontWeight: 600 }} tickFormatter={fmt} width={yAxisWidth} />
             <Tooltip formatter={barTooltipFormatter} contentStyle={{ fontSize: 13, fontWeight: 600 }} />
             {series.length > 1 && <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600 }} />}
             {series.map((s) => (
@@ -143,18 +180,18 @@ export default function ChartCard({
             ))}
           </BarChart>
         ) : type === "line" ? (
-          <LineChart data={data} margin={{ top: 8, right: 16, left: 8, bottom: xLabel ? 24 : 8 }}>
+          <LineChart data={data} margin={{ top: 8, right: 16, left: 4, bottom: bottomMargin }}>
             <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-800" />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: 12, fontWeight: 600 }}
-              label={xLabel ? { value: xLabel, position: "insideBottom", offset: -4, fontSize: 12 } : undefined}
+              tick={{ fontSize: tickFontSize, fontWeight: 600 }}
+              angle={rotateXLabels ? -35 : 0}
+              textAnchor={rotateXLabels ? "end" : "middle"}
+              interval={0}
+              height={axisHeight}
+              tickMargin={8}
             />
-            <YAxis
-              tick={{ fontSize: 12, fontWeight: 600 }}
-              tickFormatter={fmt}
-              label={yLabel ? { value: yLabel, angle: -90, position: "insideLeft", fontSize: 12 } : undefined}
-            />
+            <YAxis tick={{ fontSize: 12, fontWeight: 600 }} tickFormatter={fmt} width={yAxisWidth} />
             <Tooltip formatter={barTooltipFormatter} contentStyle={{ fontSize: 13, fontWeight: 600 }} />
             {series.length > 1 && <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600 }} />}
             {series.map((s) => (
@@ -170,9 +207,9 @@ export default function ChartCard({
             ))}
           </LineChart>
         ) : (
-          <PieChart>
+          <PieChart margin={{ top: 24, right: 70, bottom: 24, left: 70 }}>
             <Tooltip
-              formatter={(v: number) => (showPercent ? pctCountLabel(v, pieTotal) : fmt(v))}
+              formatter={(v: number, name: string) => [showPercent ? pctCountLabel(v, pieTotal) : fmt(v), name]}
               contentStyle={{ fontSize: 13, fontWeight: 600 }}
             />
             <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600 }} />
@@ -182,10 +219,43 @@ export default function ChartCard({
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={Math.min(height, 340) / 2 - 30}
-              label={(entry) =>
-                showPercent ? `${entry.name}: ${pctCountLabel(entry.value, pieTotal)}` : `${entry.name}: ${fmt(entry.value)}`
-              }
+              // Percentage radius (not a fixed pixel value derived only from
+              // `height`) so the pie — and the label text radiating outward
+              // from it — always fits inside whichever dimension (width or
+              // height) is actually the tighter one. This is what was
+              // pushing slice labels past the edge of the chart on
+              // narrower/mobile screens.
+              outerRadius="62%"
+              labelLine={{ stroke: "currentColor", strokeWidth: 1 }}
+              // Custom label renderer: keeps the on-slice text short (just
+              // the percentage/count — the slice name is already in the
+              // legend and in the tooltip) and anchors it left/right based
+              // on which side of the pie it's on, so it grows away from the
+              // chart center instead of running off either edge.
+              label={(props) => {
+                const { cx: pcx, cy: pcy, midAngle, outerRadius: r, index } = props;
+                const RADIAN = Math.PI / 180;
+                const labelRadius = Number(r) + 18;
+                const x = Number(pcx) + labelRadius * Math.cos(-midAngle * RADIAN);
+                const y = Number(pcy) + labelRadius * Math.sin(-midAngle * RADIAN);
+                const entry = pieData[index];
+                if (!entry) return null;
+                const text = showPercent ? pctCountLabel(entry.value, pieTotal) : fmt(entry.value);
+                return (
+                  <text
+                    x={x}
+                    y={y}
+                    fill="currentColor"
+                    className="text-slate-700 dark:text-slate-200"
+                    fontSize={pieLabelFontSize}
+                    fontWeight={600}
+                    textAnchor={x > Number(pcx) ? "start" : "end"}
+                    dominantBaseline="central"
+                  >
+                    {text}
+                  </text>
+                );
+              }}
             >
               {pieData.map((_, i) => (
                 <Cell
@@ -197,6 +267,13 @@ export default function ChartCard({
           </PieChart>
         )}
       </ResponsiveContainer>
+      {(xLabel || yLabel) && (type === "bar" || type === "line") && (
+        <p className="mt-2 text-center text-[11px] text-slate-400 dark:text-slate-500">
+          {yLabel && <span>{yLabel}</span>}
+          {yLabel && xLabel && <span className="mx-1.5">·</span>}
+          {xLabel && <span>{xLabel}</span>}
+        </p>
+      )}
     </div>
   );
 }

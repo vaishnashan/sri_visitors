@@ -410,7 +410,7 @@ export default function ChartCard({
               ))}
             </LineChart>
           ) : (
-            <PieChart margin={{ top: 24, right: 70, bottom: 24, left: 70 }}>
+            <PieChart margin={{ top: 32, right: 78, bottom: 32, left: 78 }}>
               <Tooltip
                 formatter={(v: number, name: string) => [showPercent ? pctCountLabel(v, pieTotal) : fmt(v), name]}
                 contentStyle={{
@@ -440,33 +440,46 @@ export default function ChartCard({
                 stroke="var(--chart-pie-stroke, #fff)"
                 strokeWidth={2}
                 labelLine={{ stroke: "currentColor", strokeWidth: 1, className: "text-slate-300 dark:text-slate-600" }}
-                // Custom label renderer: keeps the on-slice text short (just
-                // the percentage/count — the slice name is already in the
-                // legend and in the tooltip) and anchors it left/right based
-                // on which side of the pie it's on, so it grows away from the
-                // chart center instead of running off either edge.
+                // Custom label renderer: two-line label (category name bold
+                // on top, percentage/count muted below) anchored left/right
+                // based on which side of the pie it's on, so labels grow
+                // away from the chart center instead of running off either
+                // edge, and stay in name+value pairs like they used to.
                 label={(props) => {
                   const { cx: pcx, cy: pcy, midAngle, outerRadius: r, index } = props;
                   const RADIAN = Math.PI / 180;
-                  const labelRadius = Number(r) + 18;
+                  const labelRadius = Number(r) + 22;
                   const x = Number(pcx) + labelRadius * Math.cos(-midAngle * RADIAN);
                   const y = Number(pcy) + labelRadius * Math.sin(-midAngle * RADIAN);
                   const entry = pieData[index];
                   if (!entry) return null;
-                  const text = showPercent ? pctCountLabel(entry.value, pieTotal) : fmt(entry.value);
+                  const anchor = x > Number(pcx) ? "start" : "end";
+                  const valueText = showPercent ? pctCountLabel(entry.value, pieTotal) : fmt(entry.value);
                   return (
-                    <text
-                      x={x}
-                      y={y}
-                      fill="currentColor"
-                      className="text-slate-700 dark:text-slate-200"
-                      fontSize={pieLabelFontSize}
-                      fontWeight={600}
-                      textAnchor={x > Number(pcx) ? "start" : "end"}
-                      dominantBaseline="central"
-                    >
-                      {text}
-                    </text>
+                    <g>
+                      <text
+                        x={x}
+                        y={y - 7}
+                        textAnchor={anchor}
+                        fontSize={pieLabelFontSize}
+                        fontWeight={700}
+                        fill="currentColor"
+                        className="text-slate-800 dark:text-slate-100"
+                      >
+                        {entry.name}
+                      </text>
+                      <text
+                        x={x}
+                        y={y + 9}
+                        textAnchor={anchor}
+                        fontSize={pieLabelFontSize - 1}
+                        fontWeight={600}
+                        fill="currentColor"
+                        className="text-slate-500 dark:text-slate-400"
+                      >
+                        {valueText}
+                      </text>
+                    </g>
                   );
                 }}
               >

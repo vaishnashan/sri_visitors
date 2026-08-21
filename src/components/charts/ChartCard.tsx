@@ -135,7 +135,7 @@ export default function ChartCard({
 
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[rgb(17,24,39)] shadow-card p-5">
-      <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
+      <div className="flex items-start justify-between gap-3 mb-1 flex-wrap">
         <div>
           <h3 className="text-base font-bold text-slate-900 dark:text-slate-50">{title}</h3>
           {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>}
@@ -159,41 +159,111 @@ export default function ChartCard({
         )}
       </div>
 
+      {(xLabel || yLabel) && (
+        <div className="mb-3 flex flex-wrap gap-1.5">
+          {yLabel && (
+            <span className="inline-flex items-center rounded-md bg-brand-50 dark:bg-brand-900/40 px-2 py-0.5 text-[11px] font-semibold text-brand-700 dark:text-brand-200 ring-1 ring-inset ring-brand-100 dark:ring-brand-800">
+              Y: {yLabel}
+            </span>
+          )}
+          {xLabel && (
+            <span className="inline-flex items-center rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 ring-1 ring-inset ring-slate-200 dark:ring-slate-700">
+              X: {xLabel}
+            </span>
+          )}
+        </div>
+      )}
+
       <ResponsiveContainer width="100%" height={height}>
         {type === "bar" ? (
           <BarChart data={data} margin={{ top: 8, right: 16, left: 4, bottom: bottomMargin }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-800" />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke="currentColor"
+              className="text-slate-200 dark:text-slate-800"
+            />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: tickFontSize, fontWeight: 600 }}
+              tick={{ fontSize: tickFontSize, fontWeight: 600, fill: "currentColor" }}
+              className="text-slate-600 dark:text-slate-300"
+              axisLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
+              tickLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
               angle={rotateXLabels ? -35 : 0}
               textAnchor={rotateXLabels ? "end" : "middle"}
               interval={0}
               height={axisHeight}
               tickMargin={8}
             />
-            <YAxis tick={{ fontSize: 12, fontWeight: 600 }} tickFormatter={fmt} width={yAxisWidth} />
-            <Tooltip formatter={barTooltipFormatter} contentStyle={{ fontSize: 13, fontWeight: 600 }} />
-            {series.length > 1 && <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600 }} />}
+            <YAxis
+              tick={{ fontSize: 12, fontWeight: 600, fill: "currentColor" }}
+              className="text-slate-600 dark:text-slate-300"
+              axisLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
+              tickLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
+              tickFormatter={fmt}
+              width={yAxisWidth}
+            />
+            <Tooltip
+              formatter={barTooltipFormatter}
+              cursor={{ fill: "currentColor", className: "text-slate-100 dark:text-slate-800", opacity: 0.6 }}
+              contentStyle={{
+                fontSize: 13,
+                fontWeight: 600,
+                borderRadius: 10,
+                border: "1px solid rgba(148,163,184,0.35)",
+                boxShadow: "0 4px 14px rgba(16,24,40,0.12)",
+                padding: "8px 12px",
+              }}
+            />
+            {series.length > 1 && (
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600, paddingTop: 8 }} iconType="circle" iconSize={8} />
+            )}
             {series.map((s) => (
-              <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} radius={[4, 4, 0, 0]} />
+              <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} radius={[4, 4, 0, 0]} maxBarSize={56} />
             ))}
           </BarChart>
         ) : type === "line" ? (
           <LineChart data={data} margin={{ top: 8, right: 16, left: 4, bottom: bottomMargin }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-slate-200 dark:text-slate-800" />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke="currentColor"
+              className="text-slate-200 dark:text-slate-800"
+            />
             <XAxis
               dataKey="name"
-              tick={{ fontSize: tickFontSize, fontWeight: 600 }}
+              tick={{ fontSize: tickFontSize, fontWeight: 600, fill: "currentColor" }}
+              className="text-slate-600 dark:text-slate-300"
+              axisLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
+              tickLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
               angle={rotateXLabels ? -35 : 0}
               textAnchor={rotateXLabels ? "end" : "middle"}
               interval={0}
               height={axisHeight}
               tickMargin={8}
             />
-            <YAxis tick={{ fontSize: 12, fontWeight: 600 }} tickFormatter={fmt} width={yAxisWidth} />
-            <Tooltip formatter={barTooltipFormatter} contentStyle={{ fontSize: 13, fontWeight: 600 }} />
-            {series.length > 1 && <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600 }} />}
+            <YAxis
+              tick={{ fontSize: 12, fontWeight: 600, fill: "currentColor" }}
+              className="text-slate-600 dark:text-slate-300"
+              axisLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
+              tickLine={{ stroke: "currentColor", className: "text-slate-300 dark:text-slate-700" }}
+              tickFormatter={fmt}
+              width={yAxisWidth}
+            />
+            <Tooltip
+              formatter={barTooltipFormatter}
+              contentStyle={{
+                fontSize: 13,
+                fontWeight: 600,
+                borderRadius: 10,
+                border: "1px solid rgba(148,163,184,0.35)",
+                boxShadow: "0 4px 14px rgba(16,24,40,0.12)",
+                padding: "8px 12px",
+              }}
+            />
+            {series.length > 1 && (
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600, paddingTop: 8 }} iconType="circle" iconSize={8} />
+            )}
             {series.map((s) => (
               <Line
                 key={s.key}
@@ -202,7 +272,8 @@ export default function ChartCard({
                 name={s.label}
                 stroke={s.color}
                 strokeWidth={3}
-                dot={{ r: 4 }}
+                dot={{ r: 4, strokeWidth: 2, fill: "white" }}
+                activeDot={{ r: 6 }}
               />
             ))}
           </LineChart>
@@ -210,9 +281,16 @@ export default function ChartCard({
           <PieChart margin={{ top: 24, right: 70, bottom: 24, left: 70 }}>
             <Tooltip
               formatter={(v: number, name: string) => [showPercent ? pctCountLabel(v, pieTotal) : fmt(v), name]}
-              contentStyle={{ fontSize: 13, fontWeight: 600 }}
+              contentStyle={{
+                fontSize: 13,
+                fontWeight: 600,
+                borderRadius: 10,
+                border: "1px solid rgba(148,163,184,0.35)",
+                boxShadow: "0 4px 14px rgba(16,24,40,0.12)",
+                padding: "8px 12px",
+              }}
             />
-            <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600 }} />
+            <Legend wrapperStyle={{ fontSize: 12, fontWeight: 600, paddingTop: 8 }} iconType="circle" iconSize={8} />
             <Pie
               data={pieData}
               dataKey="value"
@@ -226,7 +304,10 @@ export default function ChartCard({
               // pushing slice labels past the edge of the chart on
               // narrower/mobile screens.
               outerRadius="62%"
-              labelLine={{ stroke: "currentColor", strokeWidth: 1 }}
+              paddingAngle={pieData.length > 1 ? 1.5 : 0}
+              stroke="var(--chart-pie-stroke, #fff)"
+              strokeWidth={2}
+              labelLine={{ stroke: "currentColor", strokeWidth: 1, className: "text-slate-300 dark:text-slate-600" }}
               // Custom label renderer: keeps the on-slice text short (just
               // the percentage/count — the slice name is already in the
               // legend and in the tooltip) and anchors it left/right based
@@ -267,13 +348,6 @@ export default function ChartCard({
           </PieChart>
         )}
       </ResponsiveContainer>
-      {(xLabel || yLabel) && (type === "bar" || type === "line") && (
-        <p className="mt-2 text-center text-[11px] text-slate-400 dark:text-slate-500">
-          {yLabel && <span>{yLabel}</span>}
-          {yLabel && xLabel && <span className="mx-1.5">·</span>}
-          {xLabel && <span>{xLabel}</span>}
-        </p>
-      )}
     </div>
   );
 }
